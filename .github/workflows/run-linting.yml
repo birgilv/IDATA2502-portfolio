@@ -1,4 +1,4 @@
-name: Linting
+name: Rails Linting
 
 on:
   push:
@@ -8,11 +8,28 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     steps:
+      # Check out the repository code
       - uses: actions/checkout@v3
+
+      # Set up Ruby environment matching the Gemfile
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.8'
-      - run: bundle install
-      - name: RuboCop
-        run: bundle exec rubocop --auto-correct-all
+          ruby-version: '2.7.8' # Match the Ruby version in your Gemfile
+          bundler-cache: true   # Cache gems to speed up subsequent runs
+
+      # Install dependencies from Gemfile
+      - name: Install Gems
+        run: bundle install
+
+      # Run RuboCop with Rails-specific configuration
+      - name: Run RuboCop
+        run: bundle exec rubocop --rails --auto-correct-all
+
+      # Optionally, add debug information (remove after confirming it works)
+      - name: Debug Ruby Environment
+        run: |
+          ruby --version
+          bundle --version
+          bundle list
