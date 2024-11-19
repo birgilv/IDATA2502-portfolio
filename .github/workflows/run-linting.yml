@@ -2,9 +2,11 @@ name: Rails Linting
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   lint:
@@ -12,23 +14,27 @@ jobs:
 
     steps:
       # Check out the repository code
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # Set up Ruby environment matching the Gemfile
-      - uses: ruby/setup-ruby@v1
+      # Set up Ruby environment without deployment mode
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.8' # Match the Ruby version in your Gemfile
-          bundler-cache: true   # Cache gems to speed up subsequent runs
+          ruby-version: '2.7.8' # Match your Ruby version
+          bundler-cache: true   # Cache gems for faster installs
 
-      # Install dependencies from Gemfile
-      - name: Install Gems
-        run: bundle install
+      # Install dependencies without deployment mode
+      - name: Install dependencies
+        run: |
+          bundle config set deployment false # Disable deployment mode
+          bundle install
 
       # Run RuboCop with Rails-specific configuration
       - name: Run RuboCop
         run: bundle exec rubocop --rails
 
-      # Optionally, add debug information (remove after confirming it works)
+      # Debug environment (optional)
       - name: Debug Ruby Environment
         run: |
           ruby --version
