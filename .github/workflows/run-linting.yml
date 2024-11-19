@@ -1,9 +1,7 @@
-name: Rails Linting
+name: Linting
 
 on:
   push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -13,28 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository code
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Set up Ruby environment without deployment mode
-      - name: Setup Ruby
+      - name: Set Up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.8' # Match your Ruby version
-          bundler-cache: true   # Cache gems for faster installs
+          ruby-version: '3.2.0' # Adjust to match your project's Ruby version
+          bundler-cache: true
 
-      # Install dependencies without deployment mode
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          bundle config set deployment false # Disable deployment mode
-          bundle install
+          bundle config set deployment 'false'
+          bundle install --jobs 4 --retry 3
 
-      # Run RuboCop with Rails-specific configuration
       - name: Run RuboCop
         run: bundle exec rubocop --rails
 
-      # Debug environment (optional)
       - name: Debug Ruby Environment
         run: |
           ruby --version
