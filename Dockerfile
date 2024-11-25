@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use the official Ruby image with version 2.7
-FROM ruby:2.7
+FROM ruby:3.3.6
 
 # Install dependencies
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
