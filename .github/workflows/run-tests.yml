@@ -6,13 +6,32 @@ on:
     branches: [ "main" ]
 
 jobs:
-  rspec:
+  rspec_and_rubocop:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Ruby
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.8'
-      - run: bundle install
-      - name: RSpec
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: bundle install
+
+      # Step 4: Run RSpec tests
+      - name: Run RSpec Tests
         run: bundle exec rspec
+
+      # Step 5: Verify Application Health
+      - name: Verify Application Health
+        run: |
+          curl -f http://localhost:3000/health || exit 1
+
+      # Step 6: Run RuboCop linter
+      - name: Run RuboCop
+        run: bundle exec rubocop
