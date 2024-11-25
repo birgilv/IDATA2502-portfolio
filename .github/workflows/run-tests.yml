@@ -27,6 +27,11 @@ jobs:
       - name: Run RSpec Tests
         run: bundle exec rspec
 
+      - name: Start Application
+        run: |
+          bundle exec rails server -d
+          sleep 5 # Wait for the server to start
+
       # Step 5: Verify Application Health
       - name: Verify Application Health
         run: |
