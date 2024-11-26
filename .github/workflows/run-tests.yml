@@ -23,17 +23,21 @@ jobs:
       - name: Install Dependencies
         run: bundle install
       
-      # Step 4: Set up database
+      # Step 4: Set executable permissions
+      - name: Set Executable Permissions
+        run: chmod +x bin/rails
+
+      # Step 5: Set up database
       - name: Set Up Database
         run: |
           bin/rails db:create
           bin/rails db:migrate
           bin/rails db:seed
 
-      # Step 5: Run Tests
+      # Step 6: Run Tests
       - name: Run Rails Tests
         run: bin/rails test
 
-      # Step 6: Run RuboCop linter
+      # Step 7: Run RuboCop linter
       - name: Run RuboCop with Autocorrect
         run: bundle exec rubocop -A
