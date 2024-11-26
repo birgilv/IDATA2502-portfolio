@@ -22,11 +22,18 @@ jobs:
       # Step 3: Install dependencies
       - name: Install Dependencies
         run: bundle install
+      
+      # Step 4: Set up database
+      - name: Set Up Database
+        run: |
+          bin/rails db:create
+          bin/rails db:migrate
+          bin/rails db:seed
 
-      # Step 4: Run RSpec tests
-      - name: Run RSpec Tests
-        run: bundle exec rspec
+      # Step 5: Run Tests
+      - name: Run Rails Tests
+        run: bin/rails test
 
-      # Step 5: Run RuboCop linter
+      # Step 6: Run RuboCop linter
       - name: Run RuboCop with Autocorrect
         run: bundle exec rubocop -A
