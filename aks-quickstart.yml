@@ -1,0 +1,112 @@
+###########
+# PostgreSQL Deployment
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: postgres
+# spec:
+#   replicas: 1 # Define the number of pods for the PostgreSQL instance
+#   selector:
+#     matchLabels:
+#       app: postgres
+#   template:
+#     metadata:
+#       labels:
+#         app: postgres
+#     spec:
+#       containers:
+#       - name: postgres # Name of the PostgreSQL container
+#         image: postgres:latest # PostgreSQL Docker image
+#         ports:
+#         - containerPort: 5432 # Port PostgreSQL will listen on
+#         env:
+#         - name: POSTGRES_PASSWORD # Environment variable for database password
+#           valueFrom:
+#             secretKeyRef:
+#               name: postgres-secret # Reference to the secret containing the password
+#               key: password
+#         volumeMounts:
+#         - name: postgres-data # Define where the database files will be stored
+#           mountPath: /var/lib/postgresql/data
+#       volumes:
+#       - name: postgres-data
+#         emptyDir: {} # Temporary storage for database data
+
+---
+
+# PostgreSQL Service
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: postgres
+# spec:
+#   ports:
+#   - port: 5432 # Service port for PostgreSQL
+#     targetPort: 5432 # Map the service to container port 5432
+#   selector:
+#     app: postgres # Match pods with this label
+#   type: ClusterIP # Internal service for the cluster
+
+---
+
+# Rails App Deployment
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: idata2502-portfolio
+# spec:
+#   replicas: 1 # Number of replicas for the Rails app
+#   selector:
+#     matchLabels:
+#       app: idata2502-portfolio
+#   template:
+#     metadata:
+#       labels:
+#         app: idata2502-portfolio
+#     spec:
+#       containers:
+#       - name: idata2502-portfolio # Name of the Rails app container
+#         image: birgilv/idata2502-portfolio-web:latest # Rails app Docker image
+#         ports:
+#         - containerPort: 3000 # Port Rails app listens on
+#         env:
+#         - name: DATABASE_HOST
+#           value: "postgres" # PostgreSQL service name
+#         - name: POSTGRES_PASSWORD # Environment variable for database password
+#           valueFrom:
+#             secretKeyRef:
+#               name: postgres-secret # Reference to the secret containing the password
+#               key: password
+#         resources:
+#           requests:
+#             cpu: 100m # Minimum CPU requested
+#             memory: 256Mi # Minimum memory requested
+#           limits:
+#             cpu: 500m # Maximum CPU allowed
+#             memory: 512Mi # Maximum memory allowed
+
+---
+
+# Rails App Service
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: idata2502-portfolio
+# spec:
+#   ports:
+#   - port: 3000 # Service port for the Rails app
+#     targetPort: 3000 # Map the service to container port 3000
+#   selector:
+#     app: idata2502-portfolio # Match pods with this label
+#   type: LoadBalancer # Expose the service externally via a load balancer
+
+---
+
+# PostgreSQL Secret
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: postgres-secret
+# type: Opaque # Secret type
+# data:
+#   password: bXlTZWNyZXRQYXNzd29yZA== # Base64 encoded password
