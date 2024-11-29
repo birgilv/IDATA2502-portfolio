@@ -1,0 +1,33 @@
+# <%= form_with(model: post, local: true) do |form| %>
+#   # Check if there are any validation errors for the post
+#   <% if post.errors.any? %>
+#     <div id="error_explanation">
+#       # Display the number of errors and a message indicating why the post couldn't be saved
+#       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+#       <ul>
+#         # Loop through each error message and display it in a list
+#         <% post.errors.full_messages.each do |message| %>
+#           <li><%= message %></li>
+#         <% end %>
+#       </ul>
+#     </div>
+#   <% end %>
+
+#   <div class="field">
+#     # Label and text field for the 'title' attribute of the post
+#     <%= form.label :title %>
+#     <%= form.text_field :title %>
+#   </div>
+
+#   <div class="field">
+#     # Label and text area for the 'body' attribute of the post
+#     <%= form.label :body %>
+#     <%= form.text_area :body %>
+#   </div>
+
+#   <div class="actions">
+#     # Submit button to save the form
+#     <%= form.submit %>
+#   </div>
+# <% end %>

@@ -1,4 +1,4 @@
-# name: Build and Deploy
+name: Build and Deploy
 
 # This workflow is triggered on a push to the main branch
 # on:
