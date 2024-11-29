@@ -1,3 +1,4 @@
+# rubocop:disable all
 # class User < ApplicationRecord
 #   # Include default Devise modules for user authentication
 #   # Other available modules include:

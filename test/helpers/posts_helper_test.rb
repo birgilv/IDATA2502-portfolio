@@ -1,3 +1,4 @@
+# rubocop:disable all
 # include PostsHelper
 
 # RSpec.describe PostsHelper, type: :helper do

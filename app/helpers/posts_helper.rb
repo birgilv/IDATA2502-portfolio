@@ -1,3 +1,4 @@
+# rubocop:disable all
 # module PostsHelper
 #   # Assigns the creator (user) to the given post
 #   # @param post [Post] The post object to which the creator will be assigned

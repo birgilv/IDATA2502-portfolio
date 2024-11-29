@@ -1,3 +1,4 @@
+# rubocop:disable all
 # RSpec.describe '/posts', type: :request do
 #   # Define a current user for testing
 #   # Ensure the attributes are updated to match the Post validations

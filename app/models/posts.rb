@@ -1,3 +1,4 @@
+# rubocop:disable all
 # class Post < ApplicationRecord
 #   # Specifies that each post belongs to a user
 #   belongs_to :user

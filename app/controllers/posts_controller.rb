@@ -1,3 +1,4 @@
+# rubocop:disable all
 # class PostsController < ApplicationController
 #   # Run the `set_post` method before specific actions (show, edit, update, destroy)
 #   before_action :set_post, only: %i[show edit update destroy]
